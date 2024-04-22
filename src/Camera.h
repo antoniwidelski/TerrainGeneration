@@ -37,8 +37,14 @@ public:
 		m_View = glm::lookAt(m_eye, m_lookAt, m_upVector);
 	}
 
-	void update(double dXpos, double dYpos)
+	void update(double dXpos, double dYpos, float elevation, float camDistance)
 	{
+		m_lookAt = std::move(glm::vec3(0.0f, -elevation, 0.0f));
+		glm::vec3 eyeTemp = m_eye;
+		m_eye *= camDistance;
+		UpdateViewMatrix();
+		m_eye = eyeTemp;
+
 		if (shouldMove)
 		{
 			glm::vec4 position(m_eye.x, m_eye.y, m_eye.z, 1.0f);
@@ -50,8 +56,6 @@ public:
 			float xAngle = dXpos * deltaAngleX;
 			float yAngle = dYpos * deltaAngleY;
 
-			
-
 			glm::mat4 rotationMatrixX(1.0f);
 			rotationMatrixX = glm::rotate(rotationMatrixX, xAngle, m_upVector);
 			position = (rotationMatrixX * (position - pivot)) + pivot;
@@ -62,6 +66,8 @@ public:
 
 			SetCameraView(finalPosition, getLookAt(), m_upVector);
 		}
+		
+		
 	}
 
 	void setShouldMove(bool state)

@@ -15,7 +15,7 @@ void IndexBuffer::bind() const
 void IndexBuffer::addBuffer(int count, unsigned int* arrayPtr)
 {
 	bind();
-	GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), arrayPtr, GL_STATIC_DRAW));
+	GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), arrayPtr, GL_DYNAMIC_DRAW));
 }
 
 unsigned int IndexBuffer::getCount() const

@@ -1,4 +1,13 @@
-﻿  Terrain.cpp
+﻿  Application.cpp
 D:\OpenGL\TerrainGeneration\TerrainGeneration\src\CommonValues.h(6,22): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\OpenGL\TerrainGeneration\TerrainGeneration\src\Terrain.cpp(81,23): warning C4018: '<': signed/unsigned mismatch
+D:\OpenGL\TerrainGeneration\TerrainGeneration\src\Camera.h(56,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\OpenGL\TerrainGeneration\TerrainGeneration\src\Camera.h(57,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  Terrain.cpp
+D:\OpenGL\TerrainGeneration\TerrainGeneration\src\CommonValues.h(6,22): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\OpenGL\TerrainGeneration\TerrainGeneration\src\Perlin.h(41,15): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\OpenGL\TerrainGeneration\TerrainGeneration\src\Terrain.cpp(111,23): warning C4018: '<': signed/unsigned mismatch
+D:\OpenGL\TerrainGeneration\TerrainGeneration\src\Terrain.cpp(134,27): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\OpenGL\TerrainGeneration\TerrainGeneration\src\Terrain.cpp(180,23): warning C4018: '<': signed/unsigned mismatch
+D:\OpenGL\TerrainGeneration\TerrainGeneration\src\Terrain.cpp(185,23): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
   TerrainGeneration.vcxproj -> D:\OpenGL\TerrainGeneration\Debug\TerrainGeneration.exe

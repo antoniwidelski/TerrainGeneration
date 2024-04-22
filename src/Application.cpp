@@ -22,6 +22,7 @@
 #include "stb_image.h"
 
 Camera camera;
+bool isGUIHovered;
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
@@ -56,12 +57,14 @@ int main(void)
 
     glEnable(GL_DEPTH_TEST);
 
+    int octave = 2;
+    float GUIscale = 1;
+    float elevation = 0;
+    float distance = 1;
+
     Terrain terrain;
-    //terrain.generateFromFile("res/fortnite.png");
-    //terrain.generatePlane(10);
-    //terrain.generateWeird(8);
-    terrain.generatePerlinTerrain(264);
-    //terrain.printID();
+    terrain.generatePerlinTerrain(128);
+    //terrain.generateSmoothNoise(256);
 
     Shader shader("res/Shader.shader");
     shader.useShader();
@@ -70,7 +73,7 @@ int main(void)
     glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
     shader.setUniformMat4("u_Projection", proj);
 
-    camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, elevation, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     shader.setUniformMat4("u_View", camera.getView());
 
     glfwSetMouseButtonCallback(window, mouseButtonCallback);
@@ -96,7 +99,7 @@ int main(void)
         GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
         GLCall(glClearColor(0.8f, 0.3f, 0.2f, 1.0f));
 
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
         shader.useShader();
         double newXpos;
@@ -105,17 +108,27 @@ int main(void)
         double dXpos = newXpos - xPos;
         double dYpos = newYpos - yPos;
 
-        camera.update(-dXpos, -dYpos);
+        isGUIHovered = ImGui::IsWindowHovered();
+        
+        ImGui::SliderInt("Octave", &octave, 1, 8);
+        ImGui::SliderFloat("Elevation", &elevation, -5, 5);
+        ImGui::SliderFloat("Scale", &GUIscale, 0, 10);
+        ImGui::SliderFloat("Camera Distance", &distance, 0.75f, 1.5f);
+
+        camera.update(-dXpos, -dYpos, elevation, distance);
         xPos = newXpos;
         yPos = newYpos;
         shader.setUniformMat4("u_View", camera.getView());
-        
-        //terrain.printID();
+
+        if (ImGui::Button("Regenerate"))
+        {
+            terrain.clearSeed();
+            terrain.update(octave, GUIscale * 10);
+        }
+
+        terrain.update(octave, GUIscale*10);
+
         terrain.draw();
-        //renderer.draw(terrain.getVertexArray(), terrain.getIndexBuffer(), &shader);
-        /*GLCall(glBindVertexArray(vao));
-        GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
-        GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0));*/
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -137,7 +150,7 @@ int main(void)
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 {
-    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && !isGUIHovered)
         camera.setShouldMove(true);
     else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
         camera.setShouldMove(false);

@@ -26,13 +26,13 @@ void main()
 {
 	vec4 finalColor;
 	float hCol = vPos.y * 3;
-	if (vPos.y < 0.21)
-	{
-		finalColor = vec4(0.0, 0.3, 1.0, 1.0);
-	}
-	else
-	{
-		finalColor = vec4(u_Color.xyz * hCol, 1.0);
-	}
+	//if (vPos.y < 0.21)
+	//{
+	//	finalColor = vec4(0.0, 0.3, 1.0, 1.0);
+	//}
+	//else
+	//{
+	finalColor = vec4(u_Color.xyz * hCol, 1.0);
+	//}
 	color = finalColor;
 }
