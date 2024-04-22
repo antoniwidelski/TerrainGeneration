@@ -11,7 +11,6 @@ public:
 	Renderer() {}
 	void draw(VertexArray va, IndexBuffer ib, Shader* shader)
 	{
-		
 		va.bind();
 		ib.bind();
 		shader->useShader();

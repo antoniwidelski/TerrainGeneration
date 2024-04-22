@@ -37,13 +37,7 @@ void Terrain::generateFromFile(std::string filePath)
 
 void Terrain::generatePlane(int size)
 {
-    for (int z = 0; z < size; z++)
-    {
-        for (int x = 0; x < size; x++)
-        {
-            m_heightVector.push_back(0.0f);
-        }
-    }
+    m_heightVector = getPlane(size);
 
     draw(size);
 }

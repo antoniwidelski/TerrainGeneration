@@ -8,9 +8,8 @@
 #include "ErrorCheck.h"
 #include "Shader.h"
 #include "Camera.h"
-//#include "CommonValues.h"
+
 #include "Terrain.h"
-#include "Renderer.h"
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -57,15 +56,17 @@ int main(void)
 
     glEnable(GL_DEPTH_TEST);
 
+    //GUI parameters
     int octave = 2;
     float GUIscale = 1;
     float elevation = 0;
     float distance = 1;
 
+    //Terrain
     Terrain terrain;
     terrain.generatePerlinTerrain(128);
-    //terrain.generateSmoothNoise(256);
 
+    //Shader
     Shader shader("res/Shader.shader");
     shader.useShader();
     shader.setUniform4f("u_Color", 0.55f, 0.40f, 0.30f, 1.0f);
@@ -73,35 +74,52 @@ int main(void)
     glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
     shader.setUniformMat4("u_Projection", proj);
 
+    //Camera
     camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, elevation, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     shader.setUniformMat4("u_View", camera.getView());
 
+    //Mouse
     glfwSetMouseButtonCallback(window, mouseButtonCallback);
 
+    double xPos = 0;
+    double yPos = 0;
+
+    //GUI Initialization
     ImGui::CreateContext();
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init();
     ImGui::StyleColorsDark();
 
-    double xPos = 0;
-    double yPos = 0;
-
-    Renderer renderer;
-
-    /* Loop until the user closes the window */
+    //Loop
     while (!glfwWindowShouldClose(window))
     {
+        
+
+        //GUI
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        /* Render here */
+        ImGui::SliderInt("Octave", &octave, 1, 8);
+        ImGui::SliderFloat("Elevation", &elevation, -5, 5);
+        ImGui::SliderFloat("Scale", &GUIscale, 0, 10);
+        ImGui::SliderFloat("Camera Distance", &distance, 0.75f, 1.5f);
+
+        if (ImGui::Button("Regenerate"))
+        {
+            terrain.clearSeed();
+            terrain.update(octave, GUIscale * 10);
+        }
+
+        //Clearing window and sky
         GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
         GLCall(glClearColor(0.8f, 0.3f, 0.2f, 1.0f));
 
+        shader.useShader();
+
         //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-        shader.useShader();
+        //Camera
         double newXpos;
         double newYpos;
         glfwGetCursorPos(window, &newXpos, &newYpos);
@@ -110,26 +128,16 @@ int main(void)
 
         isGUIHovered = ImGui::IsWindowHovered();
         
-        ImGui::SliderInt("Octave", &octave, 1, 8);
-        ImGui::SliderFloat("Elevation", &elevation, -5, 5);
-        ImGui::SliderFloat("Scale", &GUIscale, 0, 10);
-        ImGui::SliderFloat("Camera Distance", &distance, 0.75f, 1.5f);
-
         camera.update(-dXpos, -dYpos, elevation, distance);
         xPos = newXpos;
         yPos = newYpos;
         shader.setUniformMat4("u_View", camera.getView());
 
-        if (ImGui::Button("Regenerate"))
-        {
-            terrain.clearSeed();
-            terrain.update(octave, GUIscale * 10);
-        }
-
+        //Terrain
         terrain.update(octave, GUIscale*10);
-
         terrain.draw();
 
+        //GUI
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
