@@ -14,7 +14,7 @@ private:
 	VertexArray m_VA;
 	VertexBuffer m_VB;
 	IndexBuffer m_IB;
-	VertexBufferLayout layout;
+	VertexBufferLayout m_layout;
 
 	int m_gridSize;
 	int m_octave;
@@ -31,25 +31,19 @@ private:
 
 public:
 	Terrain() { m_Scale = 1; }
+	~Terrain() {}
+
 	void generateFromFile(std::string filepath);
 	void generatePlane(int size);
-	void generateWeird(int size);
 	void generateRandom(int size);
 	void generatePerlinTerrain(int size);
-	void generateSmoothNoise(int size);
 	
 	std::vector<float> normalizeHeight(std::vector<float> grid);
 
-	std::vector<float> mergeLayers(std::vector<float> baseLayer, std::vector<float> topLayer, int octave);
-	std::vector<float> smoothenBorders(std::vector<float> grid, int size);
-
 	void clearSeed() { m_noiseSeed.clear(); }
-	void clear();
 
 	void update(int gridSize, float scale);
 	void draw();
-
-	void printID();
 
 	VertexArray getVertexArray() { return m_VA; }
 	IndexBuffer getIndexBuffer() { return m_IB; }
