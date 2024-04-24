@@ -1,6 +1,3 @@
-﻿  Terrain.cpp
+﻿  Application.cpp
 D:\OpenGL\TerrainGeneration\TerrainGeneration\src\CommonValues.h(6,22): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\OpenGL\TerrainGeneration\TerrainGeneration\src\Terrain.cpp(94,27): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\OpenGL\TerrainGeneration\TerrainGeneration\src\Terrain.cpp(127,23): warning C4018: '<': signed/unsigned mismatch
-D:\OpenGL\TerrainGeneration\TerrainGeneration\src\Terrain.cpp(132,23): warning C4018: '<': signed/unsigned mismatch
   TerrainGeneration.vcxproj -> D:\OpenGL\TerrainGeneration\Debug\TerrainGeneration.exe
