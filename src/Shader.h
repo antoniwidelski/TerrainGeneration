@@ -32,6 +32,8 @@ public:
 	~Shader();
 
 	void useShader() const;
+	void setUniform1f(std::string name, float v0);
+	void setUniform3f(std::string name, float v0, float v1, float v2);
 	void setUniform4f(std::string name, float v0, float v1, float v2, float v3);
 	void setUniformMat4(std::string name, glm::mat4 mat);
 };

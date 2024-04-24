@@ -1,7 +1,7 @@
 
 
-const unsigned int WINDOW_WIDTH = 1024;
-const unsigned int WINDOW_HEIGHT = 768;
+const unsigned int WINDOW_WIDTH = 2048;
+const unsigned int WINDOW_HEIGHT = 1536;
 
 const float PI = 3.14;
 

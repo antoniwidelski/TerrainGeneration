@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\ErrorCheck.cpp" />
     <ClCompile Include="src\IndexBuffer.cpp" />
     <ClCompile Include="src\Shader.cpp" />
@@ -158,7 +159,6 @@
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\CommonValues.h" />
     <ClInclude Include="src\ErrorCheck.h" />
-    <ClInclude Include="src\Perlin.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Terrain.h" />

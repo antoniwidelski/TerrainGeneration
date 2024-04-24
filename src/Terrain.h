@@ -33,11 +33,14 @@ public:
 	Terrain() { m_Scale = 1; }
 	~Terrain() {}
 
+	std::vector<float> getRandom(int size);
+	std::vector<float> getPlane(int size);
+
 	void generateFromFile(std::string filepath);
 	void generatePlane(int size);
 	void generateRandom(int size);
 	void generatePerlinTerrain(int size);
-	
+
 	std::vector<float> normalizeHeight(std::vector<float> grid);
 
 	void clearSeed() { m_noiseSeed.clear(); }

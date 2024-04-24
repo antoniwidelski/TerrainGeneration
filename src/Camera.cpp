@@ -1,4 +1,7 @@
 #include "Camera.h"
+#include "glm/gtc/matrix_transform.hpp"
+
+#include <iostream>
 
 void Camera::SetCameraView(glm::vec3 eye, glm::vec3 lookat, glm::vec3 up)
 {
@@ -10,12 +13,17 @@ void Camera::SetCameraView(glm::vec3 eye, glm::vec3 lookat, glm::vec3 up)
 
 void Camera::update(double dXpos, double dYpos, float elevation, float camDistance)
 {
-	m_lookAt = std::move(glm::vec3(0.0f, -elevation, 0.0f));
-	glm::vec3 eyeTemp = m_eye;
-	m_eye *= camDistance;
-	UpdateViewMatrix();
-	m_eye = eyeTemp;
+	//Fake terrain elevation
+	glm::vec3 elevationVector(0.0f, elevation - m_lookAt.y, 0.0f);
+	m_eye += elevationVector;
+	m_lookAt += elevationVector;
 
+	//Moving from object
+	glm::vec3 direction = m_eye - m_lookAt;
+	direction = glm::normalize(direction);
+	m_eye = m_lookAt + direction * camDistance;
+
+	//Updating camera position based on the mouse movement
 	if (shouldMove)
 	{
 		glm::vec4 position(m_eye.x, m_eye.y, m_eye.z, 1.0f);
@@ -37,4 +45,6 @@ void Camera::update(double dXpos, double dYpos, float elevation, float camDistan
 
 		SetCameraView(finalPosition, getLookAt(), m_upVector);
 	}
+
+	UpdateViewMatrix();
 }

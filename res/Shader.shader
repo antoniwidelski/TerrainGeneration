@@ -20,19 +20,16 @@ out vec4 color;
 
 uniform vec4 u_Color;
 
+uniform float u_AmbientLightIntensity;
+
 varying vec3 vPos;
 
 void main()
 {
 	vec4 finalColor;
-	float hCol = vPos.y * 3;
-	//if (vPos.y < 0.21)
-	//{
-	//	finalColor = vec4(0.0, 0.3, 1.0, 1.0);
-	//}
-	//else
-	//{
-	finalColor = vec4(u_Color.xyz * hCol, 1.0);
-	//}
+	vec4 heightColor = u_Color * vPos.y;
+	float radius = sqrt(vPos.x * vPos.x + vPos.z * vPos.z);
+	vec4 radiusColor = radius * u_Color * 2;
+	finalColor = (heightColor + radiusColor) / 2;
 	color = finalColor;
 }

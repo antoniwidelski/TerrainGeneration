@@ -60,7 +60,7 @@ int main(void)
     int octave = 2;
     float GUIscale = 1;
     float elevation = 0;
-    float distance = 1;
+    float distance = 5;
 
     //Terrain
     Terrain terrain;
@@ -69,13 +69,16 @@ int main(void)
     //Shader
     Shader shader("res/Shader.shader");
     shader.useShader();
-    shader.setUniform4f("u_Color", 0.55f, 0.40f, 0.30f, 1.0f);
+
+    glm::vec3 color(0.42f, 0.40f, 0.38f);
+    shader.setUniform4f("u_Color", color.x, color.y, color.z, 1.0f);
+    //shader.setUniform4f("u_Color", 0.55f, 0.40f, 0.30f, 1.0f);
 
     glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
     shader.setUniformMat4("u_Projection", proj);
 
     //Camera
-    camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, elevation, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     shader.setUniformMat4("u_View", camera.getView());
 
     //Mouse
@@ -93,17 +96,33 @@ int main(void)
     //Loop
     while (!glfwWindowShouldClose(window))
     {
-        
+        shader.useShader();
 
         //GUI
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::SliderInt("Octave", &octave, 1, 8);
-        ImGui::SliderFloat("Elevation", &elevation, -5, 5);
-        ImGui::SliderFloat("Scale", &GUIscale, 0, 10);
-        ImGui::SliderFloat("Camera Distance", &distance, 0.75f, 1.5f);
+        //Terrain
+        if (ImGui::TreeNode("Terrain"))
+        {
+            ImGui::SliderInt("Octave", &octave, 1, 8);
+            ImGui::SliderFloat("Elevation", &elevation, -5.0f, 5.0f);
+            ImGui::SliderFloat("Scale", &GUIscale, 0.0f, 10.0f);
+            ImGui::TreePop();
+        }
+        
+        //Color
+        if (ImGui::TreeNode("Color"))
+        {
+            ImGui::SliderFloat("Red", &color.x, 0.0f, 1.0f);
+            ImGui::SliderFloat("Blue", &color.y, 0.0f, 1.0f);
+            ImGui::SliderFloat("Green", &color.z, 0.0f, 1.0f);
+            ImGui::TreePop();
+        }
+        //Camera
+        ImGui::SliderFloat("Camera Distance", &distance, 1.0f, 10.0f);
+        shader.setUniform4f("u_Color", color.x, color.y, color.z, 1.0f);
 
         if (ImGui::Button("Regenerate"))
         {
@@ -113,9 +132,7 @@ int main(void)
 
         //Clearing window and sky
         GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
-        GLCall(glClearColor(0.8f, 0.3f, 0.2f, 1.0f));
-
-        shader.useShader();
+        GLCall(glClearColor(0.63f, 0.98f, 0.93f, 1.0f));
 
         //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -128,7 +145,7 @@ int main(void)
 
         isGUIHovered = ImGui::IsWindowHovered();
         
-        camera.update(-dXpos, -dYpos, elevation, distance);
+        camera.update(-dXpos, -dYpos, -elevation, distance);
         xPos = newXpos;
         yPos = newYpos;
         shader.setUniformMat4("u_View", camera.getView());

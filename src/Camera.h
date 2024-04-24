@@ -34,6 +34,7 @@ private:
 	glm::vec3 m_eye;
 	glm::vec3 m_lookAt;
 	glm::vec3 m_upVector;
+	float m_Height;
 
 	bool shouldMove = false;
 };
