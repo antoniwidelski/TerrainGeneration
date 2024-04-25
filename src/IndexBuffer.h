@@ -8,9 +8,7 @@ private:
 public:
 	IndexBuffer();
 	void bind() const;
-	void addBuffer(int count, unsigned int* arrayPtr);
-
-	unsigned int getCount() const;
+	void addBuffer(int count, unsigned int* arrayPtr) const;
 
 	~IndexBuffer() {}
 };
