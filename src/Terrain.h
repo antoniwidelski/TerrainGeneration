@@ -27,7 +27,7 @@ private:
 	std::vector<float> m_heightVector;
 
 	void scale();
-	void draw(int size);
+	void generate(int size);
 
 public:
 	Terrain() { m_Scale = 1; }

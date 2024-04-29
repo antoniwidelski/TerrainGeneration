@@ -1,1 +1,7 @@
-﻿  TerrainGeneration.vcxproj -> D:\OpenGL\TerrainGeneration\Debug\TerrainGeneration.exe
+﻿  Terrain.cpp
+D:\OpenGL\TerrainGeneration\TerrainGeneration\src\CommonValues.h(6,22): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\OpenGL\TerrainGeneration\TerrainGeneration\src\Terrain.cpp(94,27): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\OpenGL\TerrainGeneration\TerrainGeneration\src\Terrain.cpp(121,14): error C2660: 'Terrain::draw': function does not take 1 arguments
+D:\OpenGL\TerrainGeneration\TerrainGeneration\src\Terrain.h(49,7): message : see declaration of 'Terrain::draw'
+D:\OpenGL\TerrainGeneration\TerrainGeneration\src\Terrain.cpp(127,23): warning C4018: '<': signed/unsigned mismatch
+D:\OpenGL\TerrainGeneration\TerrainGeneration\src\Terrain.cpp(132,23): warning C4018: '<': signed/unsigned mismatch

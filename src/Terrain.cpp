@@ -57,20 +57,20 @@ void Terrain::generateFromFile(std::string filePath)
             m_heightVector.push_back(yy);
         }
     }
-    draw(size);
+    generate(size);
 }
 
 void Terrain::generatePlane(int size)
 {
     m_heightVector = getPlane(size);
 
-    draw(size);
+    generate(size);
 }
 
 void Terrain::generateRandom(int size)
 {
     m_heightVector = getRandom(size);
-    draw(size);
+    generate(size);
 }
 
 void Terrain::generatePerlinTerrain(int size)
@@ -118,7 +118,7 @@ void Terrain::generatePerlinTerrain(int size)
     m_heightVector = perlinNoise;
     scale();
 
-    draw(size);
+    generate(size);
 }
 
 std::vector<float> Terrain::normalizeHeight(std::vector<float> grid)
@@ -145,7 +145,7 @@ void Terrain::scale()
     m_heightVector = normalizeHeight(m_heightVector);
 }
 
-void Terrain::draw(int size)
+void Terrain::generate(int size)
 {
     m_vertices.clear();
     m_indices.clear();
